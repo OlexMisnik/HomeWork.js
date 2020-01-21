@@ -4,7 +4,7 @@ const arr1 = [{
 },
 {
     name: 'film2',
-    rate: 9
+    rate: 10
 },
 {
     name: 'film3',
@@ -24,17 +24,24 @@ const arr1 = [{
 }
 ];
 const arr2 = [];
+
+
 function foo() {
-    let film = arr1[0]; let index = 0;
+    let film = arr1[0];  
 
-    for (let i = 0; i < arr1.length; i++) {
-        if (film.rate < arr1[i].rate) { // проверить что этого элемента arr1[i] нет в массиве arr2
-            film = arr1[i]
-            index = i
-        }     
+    for (let i = 0; i < arr1.length; i++) { 
+        if (film.rate < arr1[i].rate)  {
+            film = arr1[i];
+            // for (let y = 0; y < arr2.length; y++) {
+            if (arr2.includes(film) == false) {
+                arr2.push(film)}
+            // }
+            }            
+        }           
     }
-    arr2.push(film);
-};
-arr1.forEach(foo);
 
-console.log(arr2)
+
+
+    arr1.forEach(foo);
+
+    console.log(arr2);
