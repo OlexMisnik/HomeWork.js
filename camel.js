@@ -6,6 +6,6 @@ return newstr1;
 
 }
 
-console.log (toCamelCase("the-stealth-warrior")); // returns "theStealthWarrior"
+console.log (toCamelCase("the-stealth-warrior")); 
 
 console.log(toCamelCase("The_Stealth_Warrior"));
