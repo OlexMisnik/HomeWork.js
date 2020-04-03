@@ -1,0 +1,15 @@
+.myClass {
+    color: rgb(17, 0, 255);
+    };
+
+.myText {
+    padding: 15px;
+    border: 1px solid #be421c;
+    border-radius: 4px;
+    color: red;
+    background-color: #2d8a09;
+    };
+.myName {
+  background: red;
+  padding: 20px;
+}      
