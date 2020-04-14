@@ -1,15 +1,56 @@
-.myClass {
-    color: rgb(17, 0, 255);
-    };
+.testClass {
+width: 200px;
+height: 30px;
+margin-right : 25px;
+}
 
-.myText {
-    padding: 15px;
-    border: 1px solid #be421c;
-    border-radius: 4px;
-    color: red;
-    background-color: #2d8a09;
-    };
-.myName {
-  background: red;
-  padding: 20px;
-}      
+.Age {
+width: 200px;
+height: 30px;
+margin-right: 25px;
+}
+
+.addButton {
+height: 30px;
+}
+
+.listNode {
+border: 1px solid;
+width: 530px;
+height: 600px;
+margin-top: 40px;
+margin-right: 25px;
+}
+
+.deleteButton {
+  height: 30px;
+  margin-left: 455px;
+}
+
+.editButton {
+  height: 30px;
+  margin-left: 400px;
+}
+
+.userBlock {
+  width: 530px;
+  border: 1px solid;
+}
+
+.image {
+  width: 700px;
+  height: 228px;
+  border: 1px solid;
+}
+
+.search {
+  width: 530px;
+  height: 30px;
+  margin-left: 15px;
+}
+
+.searchButton {
+  height: 30px;
+  width: 65px;
+  margin-left: 15px;
+  }

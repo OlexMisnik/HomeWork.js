@@ -1,113 +1,142 @@
 const rootNode = document.getElementById('root');
 let users = [];
+let edituser = null;
 const image = document.createElement('IMG');
 image.setAttribute("src", "file:///home/aleksandr/%D0%A0%D0%B0%D0%B1%D0%BE%D1%87%D0%B8%D0%B9%20%D1%81%D1%82%D0%BE%D0%BB/azov%20sea.jpg");
-image.setAttribute("border", "1");
-image.setAttribute("width", "700");
-image.setAttribute("height", "228");
+image.classList.add("image");
 image.setAttribute("alt", "Azov Sea");
 
 
 let text = document.createElement("P");
 text.innerText = "Loren 50";
-text.className ="myText";
-
-
-
-
-
-// const child2 = document.createElement('input');
-// child2.onchange = function (event) {
-//     for (let i = 0; i <= event.target.value; i++) {
-//         const nextMark = document.createElement('span')
-//         nextMark.innerText = " " + i + " "
-//         rootNode.appendChild(nextMark)
-//     }
-// }
+text.classList.add("myText");
 
 const nameInput = document.createElement("input");
-nameInput.style.width = "200px";
-nameInput.style.height = "30px";
-nameInput.style.marginRight = "25px";
 nameInput.id = 'Name';
-nameInput.classList.add("myName");
+nameInput.classList.add("testClass");
 
 const ageInput = document.createElement("input");
-ageInput.style.width = "200px";
-ageInput.style.height = "30px";
-ageInput.style.marginRight = "25px";
 ageInput.id = 'Age';
 ageInput.classList.add("Age");
 
+const searchInput = document.createElement("input");
+searchInput.id = 'Search';
+searchInput.classList.add("search");
+searchInput.onkeyup = function() {Search()};
 
 const addButton = document.createElement("button");
-addButton.style.height = "30px";
-addButton.innerText = 'ADD';
+addButton.classList.add("addButton");
+addButton.innerText = 'SAVE';
 addButton.onclick = Add;
 
+const searchButton = document.createElement("button");
+searchButton.classList.add("searchButton");
+searchButton.innerText = 'SEARCH';
+searchButton.onclick = Search;
+
 const listNode = document.createElement("div");
-listNode.style.border = "1px solid";
-listNode.style.width = "530px";
-listNode.style.height = "600px";
-listNode.style.marginTop = "40px"
-listNode.style.marginRight = "25px";
+listNode.classList.add("listNode");
 listNode.id = 'list';
 
 
-function createDeleteButton() {
-const deleteButton = document.createElement("button");
-deleteButton.className = "deletebutton";
-deleteButton.style.height = "30px";
-deleteButton.style.marginLeft = "455px";
-deleteButton.innerText = 'DELETE';
-// deleteButton.onclick = Delete;
-return deleteButton;
+function createDeleteButton(user) {
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("deleteButton");  
+  deleteButton.id = user.id;
+  deleteButton.innerText = 'DELETE';
+  deleteButton.onclick = Delete;
+  return deleteButton;
 }
 
-function Add() {  
+function createEditButton(user) {
+  const editButton = document.createElement("button");
+  editButton.classList.add("editButton");  
+  editButton.id = user.id;
+  editButton.innerText = 'EDIT';
+  editButton.onclick = Edit;
+  return editButton;
+}
+
+function Add() {
   const name = document.getElementById('Name').value;
   const age = document.getElementById('Age').value;
   if (name !== "" && !isNaN(age)) {
-    const newUser = {
-      age: age,
-      name: name,
+    if (edituser == null) {
+      const newUser = {
+        id: 0, // id предыдушего + 1
+        name: name,
+        age: age,
+      }
+      users.push(newUser);
+    } else {
+      users = users.map((user) => {
+
+        if (edituser.name == user.name) {
+          const newUser = {
+            name: name,
+            age: age,
+          }
+          return newUser;
+        }
+          return user      
+      })
     }
-    users.push(newUser);
     nameInput.value = "";
     ageInput.value = "";
+    edituser = null;
     renderlist();
   }
+  renderlist();
 }
-
 
 function renderlist() {
   const list = document.getElementById('list');
   list.id = 'list';
   list.innerHTML = "";
-  users.forEach((user) => {    
-      const userBlock = document.createElement("div");
-      userBlock.className = "userBlock";
-      userBlock.style.width = "530px";
-      userBlock.style.border = "1px solid";
-      userBlock.innerHTML = "Name: " + user.name + " Age: " + user.age;
-      userBlock.appendChild(createDeleteButton());
-      listNode.appendChild(userBlock);
-          }
-    )
+  users.forEach((user) => {
+    const userBlock = document.createElement("div");
+    userBlock.classList.add("userBlock");    
+    userBlock.innerHTML = "Name: " + user.name + " Age: " + user.age;
+    userBlock.appendChild(createDeleteButton(user));
+    userBlock.appendChild(createEditButton(user));
+    listNode.appendChild(userBlock);
+  }
+  )
+}
+
+function Search() {
+  var input, filter, list, name, a, i, txtValue;
+    input = document.getElementById("Search");
+    filter = input.value.toUpperCase();
+    list = document.getElementById("list");
+    name = list.getElementsByTagName("Name");
+    for (i = 0; i < name.length; i++) {
+        a = name[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            name[i].style.display = "";
+        } else {
+            name[i].style.display = "none";
+        }
+    }
+
 }
 
 
-// function Delete() {
-  // list.innerHTML = "";
-  // users = [];
-// }
 
-root.onclick = function(event) {
-  if (event.target.className != 'deletebutton') return;
-  let userBlockdelete = event.target.closest('.userBlock');
-  userBlockdelete.remove();
-  users = [];
-};
+function Edit(event) {
+  let user = users.find((user) => user.name == event.target.id)
+  nameInput.value = user.name;
+  ageInput.value = user.age;
+  edituser = user;
+}
+
+function Delete(event) {
+  console.log(event.target)
+  users = users.filter((user) => user.id != event.target.id
+  )
+  renderlist();
+}
 
 
 rootNode.appendChild(image);
@@ -115,4 +144,17 @@ rootNode.appendChild(text);
 rootNode.appendChild(nameInput);
 rootNode.appendChild(ageInput);
 rootNode.appendChild(addButton);
+rootNode.appendChild(searchInput);
+rootNode.appendChild(searchButton);
 rootNode.appendChild(listNode);
+// rootNode.appendChild(searchInput);
+
+
+
+// 1. создать блок с полем фильтр (строка) и кнопкой поиск
+// 2. при нажатии кнопки список юзеров меняется и остаются только те кто по имени подходят к поисковому запросу
+// 3. может быть частичное совпадение, то есть имя "Антон" идет по фильтру "то"
+// 4. нужно не учитывать заглавные буква, то есть "Антон" идет по фильтру "антон"
+
+
+// 1. Добвать юзерам id и использовать его везде как уникальный идентификатор
